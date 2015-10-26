@@ -20,9 +20,13 @@ static void main_window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_frame(window_layer);
 
-  s_text_layer = text_layer_create(GRect(0, 20, bounds.size.w, bounds.size.h - 20));
+  s_text_layer = text_layer_create(PBL_IF_ROUND_ELSE(
+    grect_inset(bounds, GEdgeInsets(30, 25)),
+    GRect(0, 20, bounds.size.w, bounds.size.h - 20)));
   text_layer_set_background_color(s_text_layer, GColorBlack);
   text_layer_set_text_color(s_text_layer, GColorWhite);
+  text_layer_set_text_alignment(s_text_layer, PBL_IF_ROUND_ELSE(
+    GTextAlignmentCenter, GTextAlignmentLeft));
   text_layer_set_font(s_text_layer, fonts_get_system_font(FONT_KEY_DROID_SERIF_28_BOLD));
   layer_add_child(window_layer, text_layer_get_layer(s_text_layer));
 
